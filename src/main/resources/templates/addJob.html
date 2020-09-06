@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Job</title>
+
+    <!--==================================================================-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!--==================================================================-->
+
+    <style>
+        .mid {
+            width: 600px;
+            height: 300px;
+            padding: 20px;
+            position: relative;
+            margin: auto;
+        }
+
+        .horizontal-mid {
+            margin: auto;
+            width: 15%;
+        }
+
+        .my-custom-input {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+        <div class="navbar navbar-dark bg-dark shadow-sm">
+            <div class="container d-flex justify-content-between">
+
+                <a href="/home" class="navbar-brand d-flex align-items-center"><strong>Home</strong></a>
+
+                <form th:action="@{/logout}" method="post">
+                    <input class="my-custom-input" type="submit" value="Sign Out" />
+                </form>
+
+            </div>
+        </div>
+    </header>
+
+    <div id="app">
+
+        <div class="mid">
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Job Title</label>
+                <input type="text" class="form-control" v-model="jobTitle">
+
+                <label for="exampleFormControlInput1">Job Descript</label>
+                <input type="text" class="form-control" v-model="jobDescript">
+
+                <label for="exampleFormControlInput1">Number Of Hires</label>
+                <input type="text" class="form-control" v-model="numberOfHires">
+
+                <label for="exampleFormControlInput1">Last Application Date</label>
+                <input type="text" class="form-control" v-model="lastApplicationDate" placeholder="Example: 2020-12-30">
+
+                <div class="horizontal-mid">
+                    <button class="btn btn-sm btn-success" @Click="addJob()">Add Job</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--==================================================================-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--==================================================================-->
+</body>
+
+<script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            jobTitle: "",
+            jobDescript: "",
+            numberOfHires: "",
+            lastApplicationDate: ""
+        },
+        methods: {
+            addJob() {
+                axios({
+                    method: 'post',
+                    url: '/api/addJob',
+                    data: {
+                        jobTitle: this.jobTitle,
+                        jobDescript: this.jobDescript,
+                        numberOfHires: this.numberOfHires,
+                        lastApplicationDate: this.lastApplicationDate
+                    }
+                }).then(function (response) {
+                    if (response.data == "OK") {
+                        alert("Job Added")
+                    } else {
+                        alert("Unsuccessful! Try Again.")
+                    }
+                });
+            }
+        }
+    });
+
+</script>
+
+</html>

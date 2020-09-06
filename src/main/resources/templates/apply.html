@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Job</title>
+
+    <!--==================================================================-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!--==================================================================-->
+
+    <style>
+        .mid {
+            width: 600px;
+            height: 300px;
+            padding: 20px;
+            position: relative;
+            margin: auto;
+        }
+
+        .horizontal-mid {
+            margin: auto;
+            width: 15%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <input type="text" hidden style="display: none" th:value="${jobId}" id="jobId" />
+
+    <header>
+        <div class="navbar navbar-dark bg-dark shadow-sm">
+            <div class="container d-flex justify-content-between">
+                <a href="/home" class="navbar-brand d-flex align-items-center"><strong>Home</strong></a>
+                <a href="/login" class="navbar-brand d-flex align-items-center"><strong>Hr Manager Login</strong></a>
+            </div>
+        </div>
+    </header>
+
+    <div id="app">
+
+        <div class="mid">
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Name</label>
+                <input type="text" class="form-control" v-model="name" required>
+
+                <label for="exampleFormControlInput1">Surname</label>
+                <input type="text" class="form-control" v-model="surname" required>
+
+                <label for="exampleFormControlInput1">E-mail address</label>
+                <input type="mail" class="form-control" v-model="mail" required>
+
+                <label for="exampleFormControlInput1">Telephone</label>
+                <input type="tel" class="form-control" v-model="telephone" required>
+
+                <label for="exampleFormControlInput1">Residence</label>
+                <input type="text" class="form-control" v-model="residence" required>
+
+                <label for="exampleFormControlInput1">Git Page Link</label>
+                <input type="text" class="form-control" v-model="gitLink"
+                    placeholder="github, gitlab, bitbucket etc...">
+
+                <label for="exampleFormControlInput1">Linked In Page Link</label>
+                <input type="text" class="form-control" v-model="linkedInLink">
+
+                <div class="horizontal-mid">
+                    <button class="btn btn-sm btn-success" @Click="apply()">Apply</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--==================================================================-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--==================================================================-->
+</body>
+
+<script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            name: "",
+            surname: "",
+            mail: "",
+            telephone: "",
+            residence: "",
+            gitLink: "",
+            linkedInLink: "",
+            job: [
+                {
+                    "id": document.getElementById("jobId").value
+                }
+            ]
+        },
+        methods: {
+            apply() {
+                axios({
+                    method: 'post',
+                    url: '/api/addApplicant',
+                    data: {
+                        name: this.name,
+                        surname: this.surname,
+                        mail: this.mail,
+                        telephone: this.telephone,
+                        residence: this.residence,
+                        gitLink: this.gitLink,
+                        linkedInLink: this.linkedInLink,
+                        job: this.job
+                    }
+                }).then(function (response) {
+                    if (response.data == "OK") {
+                        window.location = "/applyDone"
+                    } else {
+                        alert("Apply Unsuccessful! Try Again.")
+                    }
+                });
+            }
+        }
+    });
+
+</script>
+
+</html>

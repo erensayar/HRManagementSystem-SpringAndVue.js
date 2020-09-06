@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Details</title>
+
+    <style>
+        body {
+            font-family: Verdana, monospace, sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: justify;
+            min-height: 800px;
+        }
+
+        .mid {
+            width: 600px;
+            height: 300px;
+            padding: 20px;
+            position: relative;
+            margin: auto;
+        }
+
+        .horizontal-mid {
+            margin: auto;
+            width: 25%;
+        }
+
+        .text_content {
+            color: rgb(221, 218, 214);
+            border-top-color: rgb(52, 57, 59);
+            border-right-color: rgb(52, 57, 59);
+            border-bottom-color: rgb(52, 57, 59);
+            border-left-color: rgb(52, 57, 59);
+            margin-top: 10px;
+            color: #111;
+            font-size: 20px;
+            padding: 20px;
+            border: 2px solid #f0f0f0;
+        }
+    </style>
+
+    <!--==================================================================-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!--==================================================================-->
+
+</head>
+
+<body>
+
+    <header>
+        <div class="navbar navbar-dark bg-dark shadow-sm">
+            <div class="container d-flex justify-content-between">
+                <a href="/home" class="navbar-brand d-flex align-items-center"><strong>Home</strong></a>
+                <a href="/login" class="navbar-brand d-flex align-items-center"><strong>Hr Manager Login</strong></a>
+            </div>
+        </div>
+    </header>
+
+    <input type="text" hidden style="display: none" th:value="${jobId}" id="jobId" />
+
+    <div id="app">
+        <div class="mid">
+            <div class="text_content">
+                <p>{{ jobDetails.jobTitle }}</p>
+                <p>{{ jobDetails.jobDescript }}</p>
+            </div>
+            <div class="horizontal-mid">
+                <button class="btn btn-sm btn-success" @Click="goToApply(jobDetails.id)">Go To Apply Page</button>
+            </div>
+        </div>
+    </div>
+
+    <!--==================================================================-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--==================================================================-->
+
+</body>
+
+<script>
+    
+    new Vue({
+        el: '#app',
+        data: {
+            jobDetails: [],
+        },
+        mounted() {
+            this.getJobDetails();
+        },
+        methods: {
+            getJobDetails() {
+                axios.get('http://localhost:8080/api/getJob/' + document.getElementById("jobId").value)
+                    .then(function (response) {
+                        this.jobDetails = response.data;
+                    }.bind(this))
+
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            goToApply(id) {
+                window.location = "/apply/" + id;
+            }
+        }
+    });
+
+</script>
+
+</html>

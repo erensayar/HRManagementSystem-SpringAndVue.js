@@ -1,0 +1,2 @@
+CV Upload
+API endpoints should be seperate (Admin/Public)

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!--==================================================================-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <!--==================================================================-->
+</head>
+
+<body>
+
+    <header>
+        <div class="navbar navbar-dark bg-dark shadow-sm">
+            <div class="container d-flex justify-content-between">
+                <a href="/home" class="navbar-brand d-flex align-items-center"><strong>Home</strong></a>
+                <a href="/login" class="navbar-brand d-flex align-items-center"><strong>Hr Manager Login</strong></a>
+            </div>
+        </div>
+    </header>
+
+    
+    <div id="app">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Job Title</th>
+                    <th scope="col">Last App Date</th>
+                    <th scope="col">Number Of Hire</th>
+                    <th scope="col">Details</th>
+                </tr>
+            </thead>
+
+            <tbody v-for="job in jobs">
+                <tr>
+                    <td>{{job.jobTitle}}</td>
+                    <td>{{job.lastApplicationDate}}</td>
+                    <td>{{job.numberOfHires}}</td>
+                    <td>
+                        <button class="btn btn-sm btn-success" @Click="openJobDetail(job.id)">Details</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <!--==================================================================-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--==================================================================-->
+
+</body>
+
+<script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            jobs: []
+        },
+        mounted() {
+            this.getAllJob();
+        },
+        methods: {
+            getAllJob() {
+                axios.get('http://localhost:8080/api/getAllJob')
+                    .then(function (response) {
+                        this.jobs = response.data;
+                    }.bind(this))
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            openJobDetail(id) {
+                window.location = "/detailsOfJob/" + id;
+            }
+        }
+    });
+
+</script>
+
+</html>
