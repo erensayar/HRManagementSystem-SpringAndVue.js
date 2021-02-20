@@ -1,17 +1,34 @@
-HRManagementSystem-SpringAndVue
-
+# HRManagementSystem-SpringAndVue
 Used Spring Boot and Vue.js, Axios, MySql, Thymeleaf, Bootsrap, CSS, Html.
 
 ---
+# Requirements To Run Application
+* Maven
+* JDK 11
+* Mysql Server (Mysql Server, XAMPP, Docker ..)
 
-*This application can;
+# Things To Do Just Before Start Application
+* Mysql DB run
+* Create ***hr_app*** db
+* Import SQL file
+* And run jar 
 
-    Job postings are listed
-    Job posting can be added
-    Job posting can be reviewed
-    Can apply for a job
-    Applications are listed
-    Applications can be reviewed
+# To Run JAR File
+* Go applicagtion main directory and use this command on terminal for build project:
+    
+        mvn clean install
+
+* And then application ready for run. Only with one jar file 
+
+        java -jar HrApp-1.0-RELEASE.jar
+---
+This application can:
+ * Job postings are listed
+ * Job posting can be added
+ * Job posting can be reviewed
+ * Can apply for a job
+ * Applications are listed
+ * Applications can be reviewed
 
 ---
 
